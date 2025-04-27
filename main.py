@@ -22,10 +22,10 @@ class BookSystem:
     def _init_data(self):
         airline1 = Airline("Budapest Airline", "BPS")
 
-        domestic_flight1 = DomesticFlight("BPS111", "BUD", "PEC",  200.0, datetime.strptime("2023-10-01 10:00", "%Y-%m-%d %H:%M"), "Budapest", "Pécs")
-        domestic_flight2 = DomesticFlight("BPS222", "BUD", "DEB",  300.0, datetime.strptime("2023-10-01 11:00", "%Y-%m-%d %H:%M"), "Budapest", "Debrecen")
-        international_flight1 = InternationalFlight("BPS333", "BUD", "BER", 800.0, datetime.strptime("2023-10-01 12:00", "%Y-%m-%d %H:%M"), "Hungary", "Germany")
-        international_flight2 = InternationalFlight("BPS444", "BUD", "LIS", 1200.0, datetime.strptime("2023-10-01 13:00", "%Y-%m-%d %H:%M"), "Hungary", "Portugal")
+        domestic_flight1 = DomesticFlight("BPS111", "BUD", "PEC",  20000, datetime.strptime("2025-4-27 10:00", "%Y-%m-%d %H:%M"), "Budapest", "Pécs")
+        domestic_flight2 = DomesticFlight("BPS222", "BUD", "DEB",  30000, datetime.strptime("2025-5-31 11:00", "%Y-%m-%d %H:%M"), "Budapest", "Debrecen")
+        international_flight1 = InternationalFlight("BPS333", "BUD", "BER", 80000, datetime.strptime("2025-5-5 12:00", "%Y-%m-%d %H:%M"), "Hungary", "Germany")
+        international_flight2 = InternationalFlight("BPS444", "BUD", "LIS", 120000, datetime.strptime("2025-6-10 13:00", "%Y-%m-%d %H:%M"), "Hungary", "Portugal")
 
         airline1.add_flight(domestic_flight1)
         airline1.add_flight(domestic_flight2)
@@ -33,6 +33,14 @@ class BookSystem:
         airline1.add_flight(international_flight2)
 
         self.add_airline(airline1)
+        
+        self.book_ticket("Kiss Mária", "BPS111")
+        self.book_ticket("Fekete András", "BPS222")
+        self.book_ticket("Fekete András", "BPS333")
+        self.book_ticket("Varga Zsófia", "BPS444")
+        self.book_ticket("Szűcs Petra", "BPS222")
+        self.book_ticket("Papp Gergely", "BPS444")
+        
         self.display_airlines()
     
     def find_flight_by_number(self, flight_number: str):
@@ -42,10 +50,13 @@ class BookSystem:
                     return flight
         return None
     
-    def book_ticket(self):
+    def book_ticket_manually(self):
         flight_number = input("Enter flight number: ")
         flight = self.find_flight_by_number(flight_number)
         if flight:
+            if flight.departure_datetime < datetime.now():
+                print("Cannot book a ticket for a flight that has already departed.")
+                return
             ticket_id = len(self.tickets) + 1
             passenger_name = input("Enter passenger name: ")
             ticket = Ticket(ticket_id, passenger_name, flight)
@@ -53,6 +64,14 @@ class BookSystem:
             print(f"Ticket booked successfully! Ticket ID: {ticket_id}")
         else:
             print("Flight not found.")
+    
+    def book_ticket(self,passenger_name=None,flight_number=None):
+        if passenger_name and flight_number:
+            ticket_id = len(self.tickets) + 1
+            ticket = Ticket(ticket_id, passenger_name, self.find_flight_by_number(flight_number))
+            self.tickets.append(ticket)
+        else:
+            self.book_ticket_manually()
     
     def list_tickets(self):
         if not self.tickets:
@@ -84,25 +103,32 @@ class BookSystem:
             print("3. List tickets")
             print("4. Cancel a ticket")
             print("5. Exit")
-            choice = input("Enter your choice: ")
-            if choice == '1':
+            try:
+                choice = int(input("Enter your choice: "))
+                if choice == 1:
+                    clear_console()
+                    self.display_airlines()
+                elif choice == 2:
+                    clear_console()
+                    self.display_airlines()
+                    self.book_ticket()
+                elif choice == 3:
+                    clear_console()
+                    self.list_tickets()
+                elif choice == 4:
+                    clear_console()
+                    if self.list_tickets(): 
+                        self.cancel_ticket()
+                elif choice == 5:
+                    break
+                else:
+                    clear_console()
+                    self.display_airlines()
+                    print("Invalid choice. Please try again.")
+            except ValueError:
                 clear_console()
                 self.display_airlines()
-            elif choice == '2':
-                clear_console()
-                self.display_airlines()
-                self.book_ticket()
-            elif choice == '3':
-                clear_console()
-                self.list_tickets()
-            elif choice == '4':
-                clear_console()
-                if self.list_tickets(): 
-                    self.cancel_ticket()
-            elif choice == '5':
-                break
-            else:
-                print("Invalid choice. Please try again.")
+                print("Invalid input. Please enter a valid input.")
 
 def clear_console():
     os.system("cls" if os.name == "nt" else "clear")

@@ -2,16 +2,10 @@ from Flight import Flight
 from datetime import datetime
 
 class InternationalFlight(Flight):
-    def __init__(self, flight_number: str, departure_airport: str, arrival_airport: str, price: float, departure_datetime: datetime, departure_country: str, arrival_country: str):
+    def __init__(self, flight_number: str, departure_airport: str, arrival_airport: str, price: int, departure_datetime: datetime, departure_country: str, arrival_country: str):
         super().__init__(flight_number, departure_airport, arrival_airport, price, departure_datetime)
         self._departure_country = departure_country
         self._arrival_country = arrival_country
-
-    def book_flight(self):
-        print(f"Booking international flight {self.flight_number} from {self.departure_country} to {self.arrival_country}.")
-
-    def cancel_flight(self):
-        print(f"Cancelling international flight {self.flight_number}.")
 
     #getters for the properties
     @property
@@ -51,7 +45,7 @@ class InternationalFlight(Flight):
         self._arrival_airport = arrival_airport
         
     @price.setter
-    def price(self, price: float):
+    def price(self, price: int):
         self._price = price
 
     @departure_datetime.setter
@@ -73,7 +67,7 @@ class InternationalFlight(Flight):
             "Departure Airport": self._departure_airport,
             "Arrival Country": self._arrival_country,
             "Arrival Ariport": self._arrival_airport,
-            "Price": self._price,
+            "Price": str(self._price) + "Ft",
             "Departure date & time": self._departure_datetime.strftime("%Y-%m-%d %H:%M:%S")
         }
 

@@ -2,16 +2,10 @@ from Flight import Flight
 from datetime import datetime
 
 class DomesticFlight(Flight):
-    def __init__(self, flight_number: str, departure_airport: str, arrival_airport: str, price: float, departure_datetime: datetime, departure_city: str, arrival_city: str):
+    def __init__(self, flight_number: str, departure_airport: str, arrival_airport: str, price: int, departure_datetime: datetime, departure_city: str, arrival_city: str):
         super().__init__(flight_number, departure_airport, arrival_airport, price, departure_datetime)
         self._departure_city = departure_city
         self._arrival_city = arrival_city
-
-    def book_flight(self):
-        print(f"Booking domestic flight {self.flight_number} from {self.departure_city} to {self.arrival_city}.")
-
-    def cancel_flight(self):
-        print(f"Cancelling domestic flight {self.flight_number}.")
 
     #getters for the properties
     @property
@@ -52,7 +46,7 @@ class DomesticFlight(Flight):
         self._arrival_airport = arrival_airport
         
     @price.setter
-    def price(self, price: float):
+    def price(self, price: int):
         self._price = price
     
     @departure_datetime.setter
@@ -74,7 +68,7 @@ class DomesticFlight(Flight):
             "Departure Airport": self._departure_airport,
             "Arrival City": self._arrival_city,
             "Arrival Ariport": self._arrival_airport,
-            "Price": self._price,
+            "Price": str(self._price) + "Ft",
             "Departure date & time": self._departure_datetime.strftime("%Y-%m-%d %H:%M:%S")
         }
         
