@@ -93,7 +93,7 @@ class BookSystem:
                         ticket = Ticket(ticket_id, passenger_name, flight)
                         self.tickets.append(ticket)
                         self.reset_airline_console()
-                        print(f"Ticket for for flight {flight_number} booked successfully! Ticket ID: {ticket_id}")
+                        print(f"Ticket for flight {flight_number} booked successfully! Ticket ID: {ticket_id}")
                 else:
                     self.reset_airline_console()
                     print("Flight not found.")
