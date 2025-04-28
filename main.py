@@ -4,6 +4,7 @@ from InternationalFlight import InternationalFlight
 from Ticket import Ticket
 from datetime import datetime
 import os
+import shutil
 
 class BookSystem:
     def __init__(self):
@@ -138,10 +139,20 @@ class BookSystem:
                 clear_console()
                 self.display_airlines(True)
                 print("Invalid input. Please enter a valid input.")
+    
+    def set_console_width(width: int, height: int = 25):
+    if os.name == "nt":
+        os.system(f"mode con: cols={width} lines={height}")
+    else:
+        os.system(f"printf '\033[8;{height};{width}t'")
 
 def clear_console():
     os.system("cls" if os.name == "nt" else "clear")
         
-clear_console()
+
+
+
 bookSystem = BookSystem()
+bookSystem.set_console_width(150, 30)
+clear_console()
 bookSystem.user_interface()
