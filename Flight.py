@@ -10,6 +10,10 @@ class Flight(ABC):
         self._departure_datetime = departure_datetime
 
     @abstractmethod
-    def get_flight_details(self):
+    def get_flight_details(self, formatted: bool = False):
+        pass
+
+    @abstractmethod
+    def get_destination(self):
         pass
     

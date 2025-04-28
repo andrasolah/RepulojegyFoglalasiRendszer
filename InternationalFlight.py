@@ -60,14 +60,20 @@ class InternationalFlight(Flight):
     def arrival_country(self, arrival_country: str):
         self._arrival_country = arrival_country
         
-    def get_flight_details(self):
-        return {
-            "Flight Number": self._flight_number,
-            "Departure Country": self._departure_country,
-            "Departure Airport": self._departure_airport,
-            "Arrival Country": self._arrival_country,
-            "Arrival Ariport": self._arrival_airport,
-            "Price": str(self._price) + "Ft",
-            "Departure date & time": self._departure_datetime.strftime("%Y-%m-%d %H:%M:%S")
-        }
+    def get_flight_details(self, formatted: bool = False):
+        if formatted:
+            return f"{self._flight_number:<10}|{self._departure_country:<25}|{self._departure_airport:<20}|{self._arrival_country:<25}|{self._arrival_airport:<20}|{self._price:<15}|{self._departure_datetime.strftime('%Y-%m-%d %H:%M'):<10}"
+        else:
+            return {
+                "Flight Number": self._flight_number,
+                "Departure Country": self._departure_country,
+                "Departure Airport": self._departure_airport,
+                "Arrival Country": self._arrival_country,
+                "Arrival Ariport": self._arrival_airport,
+                "Price": str(self._price) + "Ft",
+                "Departure date & time": self._departure_datetime.strftime("%Y-%m-%d %H:%M")
+            }
+        
+    def get_destination(self):
+        return self._arrival_country
 

@@ -14,10 +14,10 @@ class BookSystem:
     def add_airline(self, airline: Airline):
         self.airlines.append(airline)
 
-    def display_airlines(self):
+    def display_airlines(self, formatted: bool = False):
         for airline in self.airlines:
             print(f"Airline Name: {airline.name}, Code: {airline.code}")
-            airline.print_flights()
+            airline.print_flights(formatted)
             
     def _init_data(self):
         airline1 = Airline("Budapest Airline", "BPS")
@@ -41,7 +41,7 @@ class BookSystem:
         self.book_ticket("Szűcs Petra", "BPS222")
         self.book_ticket("Papp Gergely", "BPS444")
         
-        self.display_airlines()
+        self.display_airlines(True)
     
     def find_flight_by_number(self, flight_number: str):
         for airline in self.airlines:
@@ -58,7 +58,14 @@ class BookSystem:
                 print("Cannot book a ticket for a flight that has already departed.")
                 return
             ticket_id = len(self.tickets) + 1
-            passenger_name = input("Enter passenger name: ")
+            while True:
+                passenger_name = input("Enter passenger name (or 'exit' to cancel): ").strip()
+                if passenger_name.lower() == "exit":
+                    return
+                if not passenger_name:
+                    print("Passenger name cannot be empty. Please try again.")
+                    continue
+                break
             ticket = Ticket(ticket_id, passenger_name, flight)
             self.tickets.append(ticket)
             print(f"Ticket booked successfully! Ticket ID: {ticket_id}")
@@ -77,8 +84,10 @@ class BookSystem:
         if not self.tickets:
             print("No tickets booked.")
             return False
+        print(f"{'Ticket ID':<10} {'Passenger Name':<20} {'Flight Number':<15} {'Price (Ft)':<15} {'Destination':<15} {'Flight Date & Time':<20}")
+        print("-" * 100)
         for ticket in self.tickets:
-            print(f"Ticket ID: {ticket._ticket_id}, Passenger Name: {ticket._passenger_name}, Flight Number: {ticket._flight.flight_number}")
+            print(f"{ticket.ticket_id:<10} {ticket.passenger_name:<20} {ticket.flight.flight_number:<15} {ticket.flight.price:<15} {ticket.flight.get_destination():<15} {ticket.flight.departure_datetime.strftime('%Y-%m-%d %H:%M:%S'):<20}")
         return True
     
     def cancel_ticket(self):
@@ -107,10 +116,10 @@ class BookSystem:
                 choice = int(input("Enter your choice: "))
                 if choice == 1:
                     clear_console()
-                    self.display_airlines()
+                    self.display_airlines(True)
                 elif choice == 2:
                     clear_console()
-                    self.display_airlines()
+                    self.display_airlines(True)
                     self.book_ticket()
                 elif choice == 3:
                     clear_console()
@@ -123,11 +132,11 @@ class BookSystem:
                     break
                 else:
                     clear_console()
-                    self.display_airlines()
+                    self.display_airlines(True)
                     print("Invalid choice. Please try again.")
             except ValueError:
                 clear_console()
-                self.display_airlines()
+                self.display_airlines(True)
                 print("Invalid input. Please enter a valid input.")
 
 def clear_console():

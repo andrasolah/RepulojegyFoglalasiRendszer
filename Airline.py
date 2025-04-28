@@ -18,9 +18,11 @@ class Airline:
     def flights(self):
         return self._flights
     
-    def print_flights(self):
+    def print_flights(self, formatted: bool = False):
+        print(f"{'Flight':<10}|{'Departure City / Country':<25}|{'Departure Airport':<20}|{'Arrival City / Country':<25}|{'Arrival Airport':<20}|{'Price (Ft)':<15}|{'Flight Date & Time':<10}")
+        
         for flight in self._flights:
-            print(flight.get_flight_details())
+            print(flight.get_flight_details(formatted))
     
     def add_flight(self, flight: Flight):
         self._flights.append(flight)

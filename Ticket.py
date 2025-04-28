@@ -7,3 +7,14 @@ class Ticket:
         self._passenger_name = passenger_name
         self._flight = flight
 
+    @property
+    def ticket_id(self):
+        return self._ticket_id
+    
+    @property
+    def passenger_name(self):
+        return self._passenger_name
+    
+    @property
+    def flight(self):
+        return self._flight

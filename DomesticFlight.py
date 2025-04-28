@@ -61,14 +61,19 @@ class DomesticFlight(Flight):
     def arrival_city(self, arrival_city: str):
         self._arrival_city = arrival_city
 
-    def get_flight_details(self):
-        return {
-            "Flight Number": self._flight_number,
-            "Departure City": self._departure_city,
-            "Departure Airport": self._departure_airport,
-            "Arrival City": self._arrival_city,
-            "Arrival Ariport": self._arrival_airport,
-            "Price": str(self._price) + "Ft",
-            "Departure date & time": self._departure_datetime.strftime("%Y-%m-%d %H:%M:%S")
-        }
+    def get_flight_details(self, formatted: bool = False):
+        if formatted:
+            return f"{self._flight_number:<10}|{self._departure_city:<25}|{self._departure_airport:<20}|{self._arrival_city:<25}|{self._arrival_airport:<20}|{self._price:<15}|{self._departure_datetime.strftime('%Y-%m-%d %H:%M'):<10}"
+        else:
+            return {
+                "Flight Number": self._flight_number,
+                "Departure City": self._departure_city,
+                "Departure Airport": self._departure_airport,
+                "Arrival City": self._arrival_city,
+                "Arrival Ariport": self._arrival_airport,
+                "Price": str(self._price) + "Ft",
+                "Departure date & time": self._departure_datetime.strftime("%Y-%m-%d %H:%M")
+            }
         
+    def get_destination(self):
+        return self._arrival_city
