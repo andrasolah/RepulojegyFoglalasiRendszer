@@ -62,7 +62,7 @@ class InternationalFlight(Flight):
         
     def get_flight_details(self, formatted: bool = False):
         if formatted:
-            return f"{self._flight_number:<10}|{self._departure_country:<25}|{self._departure_airport:<20}|{self._arrival_country:<25}|{self._arrival_airport:<20}|{self._price:<15}|{self._departure_datetime.strftime('%Y-%m-%d %H:%M'):<10}"
+            return f"{self._flight_number:<15}|{self._departure_country:<25}|{self._departure_airport:<20}|{self._arrival_country:<25}|{self._arrival_airport:<20}|{self._price:<15}|{self._departure_datetime.strftime('%Y-%m-%d %H:%M'):<10}"
         else:
             return {
                 "Flight Number": self._flight_number,
